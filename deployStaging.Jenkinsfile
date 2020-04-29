@@ -79,7 +79,7 @@ pipeline {
                     script {
                         def status = dt_createUpdateSyntheticTest (
                             testName : "simpleproject.staging.${env.APP_NAME}",
-                            url : "http://${SERVICE_IP}:${SERVICE_PORT}/api/invoke",
+                            url : "http://${SERVICE_IP}:${SERVICE_PORT}/",
                             method : "GET",
                             location : "SYNTHETIC_LOCATION-9BEE224A756A7713"
                         )
