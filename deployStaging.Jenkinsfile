@@ -78,10 +78,24 @@ pipeline {
                 container("curl") {
                     script {
                         def status = dt_createUpdateSyntheticTest (
-                        testName : "simpleproject.staging.${env.APP_NAME}",
-                        url : "http://${SERVICE_IP}:${SERVICE_PORT}/api/invoke",
-                        method : "GET",
-                        location : "SYNTHETIC_LOCATION-9BEE224A756A7713"
+                            testName : "simpleproject.staging.${env.APP_NAME}",
+                            url : "http://${SERVICE_IP}:${SERVICE_PORT}/api/invoke",
+                            method : "GET",
+                            location : "SYNTHETIC_LOCATION-9BEE224A756A7713"
+                        )
+                    }
+                }
+            }
+        }
+        stage('DT create application detection rule') {
+            steps {
+                container("curl") {
+                    script {
+                        def status = dt_createUpdateAppDetectionRule (
+                            dtAppName : "simpleproject.staging.${env.APP_NAME}",
+                            pattern : "http://${SERVICE_IP}:${SERVICE_PORT}",
+                            applicationMatchType: "CONTAINS",
+                            applicationMatchTarget: "URL"
                         )
                     }
                 }
