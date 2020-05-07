@@ -1,5 +1,5 @@
-@Library('ace@master') ace
-@library('keptn-library@2.0') keptnlib
+@Library('ace@master') _
+@library('keptn-library@2.0') _
 import sh.keptn.Keptn
 def keptn = new sh.keptn.Keptn()
 
