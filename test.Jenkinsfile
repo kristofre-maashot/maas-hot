@@ -29,10 +29,12 @@ pipeline {
     }
     stages {
         stage ('Keptn Init') {
-            script {
-                keptn.keptnInit project:"${env.PROJECT}", service:"${env.APP_NAME}", stage:"${env.ENVIRONMENT}", monitoring:"${env.MONITORING}" , shipyard:'keptn/shipyard.yaml'
-                keptn.keptnAddResources('keptn/sli.yaml','dynatrace/sli.yaml')
-                keptn.keptnAddResources('keptn/slo.yaml','slo.yaml')
+            steps {
+                script {
+                    keptn.keptnInit project:"${env.PROJECT}", service:"${env.APP_NAME}", stage:"${env.ENVIRONMENT}", monitoring:"${env.MONITORING}" , shipyard:'keptn/shipyard.yaml'
+                    keptn.keptnAddResources('keptn/sli.yaml','dynatrace/sli.yaml')
+                    keptn.keptnAddResources('keptn/slo.yaml','slo.yaml')
+                }
             }
         }
         stage('DT send test start event') {
@@ -104,9 +106,11 @@ pipeline {
         }
 
         stage('Keptn Evaluation') {
-            script {
-                def keptnContext = keptn.sendStartEvaluationEvent starttime:"${env.testStartTime}", endtime:"${env.testStopTime}" 
-                echo keptnContext
+            steps {
+                script {
+                    def keptnContext = keptn.sendStartEvaluationEvent starttime:"${env.testStartTime}", endtime:"${env.testStopTime}" 
+                    echo keptnContext
+                }
             }
         }
 
