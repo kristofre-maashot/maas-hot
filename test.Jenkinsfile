@@ -1,4 +1,7 @@
 @Library('ace@master') _ 
+@library('keptn-library@1.0')
+import sh.keptn.Keptn
+def keptn = new sh.keptn.Keptn()
 
 def tagMatchRules = [
   [
@@ -16,10 +19,20 @@ pipeline {
     parameters {
         string(name: 'APP_NAME', defaultValue: 'simplenodeservice', description: 'The name of the service to deploy.', trim: true)
     }
+    environment {
+        ENVIRONMENT = 'staging'
+        PROJECT = 'simplenodeproject'
+        MONITORING = 'dynatrace'
+    }
     agent {
         label 'kubegit'
     }
     stages {
+        stage ('Keptn Init') {
+            keptn.keptnInit project:"${env.PROJECT}", service:"${env.APP_NAME}", stage:"${env.ENVIRONMENT}", monitoring:"${env.MONITORING}" , shipyard:'keptn/shipyard.yaml'
+            keptn.keptnAddResources('keptn/sli.yaml','dynatrace/sli.yaml')
+            keptn.keptnAddResources('keptn/slo.yaml','slo.yaml')
+        }
         stage('DT send test start event') {
             steps {
                 container("curl") {
@@ -40,6 +53,9 @@ pipeline {
         }
         stage('Run performance test') {
             steps {
+                script {
+                    env.testStartTime = java.time.LocalDateTime.now().toString()
+                }
                 checkout scm
                 container('jmeter') {
                     script {
@@ -61,6 +77,9 @@ pipeline {
                     }
                     }
                 }
+                script {
+                    env.testStopTime = java.time.LocalDateTime.now().toString()
+                }
             }
         }
         stage('DT send test stop event') {
@@ -80,6 +99,11 @@ pipeline {
                     }
                 }
             }
+        }
+
+        stage('Keptn Evaluation') {
+            def keptnContext = keptn.sendStartEvaluationEvent starttime:"${env.testStartTime}", endtime:"${env.testStopTime}" 
+            echo keptnContext
         }
 
         stage('Manual approval') {

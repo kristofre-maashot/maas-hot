@@ -1,8 +1,0 @@
-indicators:
-- metric: request_latency_dt
-  source: Dynatrace
-  queryObject:
-    - key: timeseriesId
-      value: com.dynatrace.builtin:service.responsetime
-    - key: aggregation
-      value: AVG
