@@ -110,11 +110,15 @@ pipeline {
                     def keptnContext = keptn.sendStartEvaluationEvent starttime:"${env.testStartTime}", endtime:"" 
                     echo keptnContext
                     result = keptn.waitForEvaluationDoneEvent setBuildResult:true, waitTime:3
+
+                    res_file = readJSON file: "keptn.evaluationresult.${keptnContext}.json"
+
+                    echo res_file
                 }
             }
         }
 
-        stage('Manual approval') {
+        /*stage('Manual approval') {
             // no agent, so executors are not used up when waiting for approvals
             agent none
             steps {
@@ -134,7 +138,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
 
         stage('Promote to production') {
             // no agent, so executors are not used up when waiting for other job to complete
