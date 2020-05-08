@@ -118,5 +118,8 @@ def generateDynamicMetaData(){
     returnValue += "Branch=${env.GIT_BRANCH} "
     returnValue += "Build=${env.BUILD} "
     returnValue += "Image=${env.TAG_STAGING} "
+    returnValue += "KEPTN_PROJECT=simplenodeproject "
+    returnValue += "KEPTN_SERVICE=${env.APP_NAME} "
+    returnValue += "KEPTN_STAGE=staging "
     return returnValue;
 }
