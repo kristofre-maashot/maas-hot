@@ -113,7 +113,7 @@ pipeline {
 
                     res_file = readJSON file: "keptn.evaluationresult.${keptnContext}.json"
 
-                    echo res_file
+                    echo res_file.toString();
                 }
             }
         }
