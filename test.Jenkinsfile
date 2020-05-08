@@ -109,7 +109,7 @@ pipeline {
                 script {
                     def keptnContext = keptn.sendStartEvaluationEvent starttime:"${env.testStartTime}", endtime:"" 
                     echo keptnContext
-                    result = keptn.waitForEvaluationDoneEvent setBuildResult:true, waitTime:waitTime
+                    result = keptn.waitForEvaluationDoneEvent setBuildResult:true, waitTime:3
                 }
             }
         }
