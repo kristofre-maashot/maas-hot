@@ -146,9 +146,10 @@ pipeline {
             }
             steps {
                 build job: "4. Deploy production",
-                parameters: [
-                    string(name: 'APP_NAME', value: "${env.APP_NAME}")
-                ]
+                    wait: false,
+                    parameters: [
+                        string(name: 'APP_NAME', value: "${env.APP_NAME}")
+                    ]
             }
         }  
     }
