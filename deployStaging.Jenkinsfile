@@ -66,7 +66,7 @@ pipeline {
                 }
             }
         }
-        stage('DT create synthetic monitor') {
+        /*stage('DT create synthetic monitor') {
             steps {
                 container("kubectl") {
                     script {
@@ -100,7 +100,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
         stage('Run tests') {
             steps {
                 build job: "3. Test",
