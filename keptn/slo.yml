@@ -22,11 +22,11 @@ objectives:
     pass:
       - criteria:
           - "<=+10%"    # Degradation-driven
-          - "<300000"   # NFR-driven
+          - "<600000"   # NFR-driven
     warning:
       - criteria:
           - "<=+50%"
-          - "<=500000"
+          - "<=800000"
   - sli: "error_rate"
     pass:
       - criteria:
